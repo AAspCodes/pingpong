@@ -18,7 +18,7 @@ def create_client_pods(dep, n:int):
 
     v1 = client.CoreV1Api()
 
-    for i in range(5):  # replace with your desired number of Pods
+    for i in range(n):  # replace with your desired number of Pods
         pod_name = f'{dep["metadata"]["name"]}-{i}'
 
         # Create the Pod
