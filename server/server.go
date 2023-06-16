@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"net"
 	"os"
-	"time"
 )
 
 func main() {
@@ -50,21 +49,12 @@ func handleRequest(conn net.Conn) {
 		fmt.Println("Error reading:", err)
 	}
 
-	// var result shared.Message
-	// jsonErr := json.Unmarshal(buffer[:n], &result)
-
-	// if jsonErr != nil {
-	// 	fmt.Println(jsonErr, "there")
-	// }
-
-	// message := fmt.Sprintf("pong got %s, %d", result.Msg, result.Num)
-	// fmt.Println(message)
 	fmt.Println(string(buffer[:n]))
-	// // Send a response back to the person contacting us.
-	// conn.Write([]byte("Message received."))
+
+	// Send a response back to the client contacting us.
+	conn.Write([]byte("Message received from client!: " + string(buffer[:n])))
+
 	// Close the connection when you're done with it.
 	conn.Close()
-	time.Sleep(5 * time.Second)
 	fmt.Println("server finished receiving from client")
-	// return message
 }

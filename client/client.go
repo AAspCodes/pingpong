@@ -20,6 +20,8 @@ func main() {
 
 	send_message(conn, message)
 
+	receive_message(conn)
+
 	conn.Close()
 	time.Sleep(5 * time.Second)
 	fmt.Println("client finished sending")
@@ -44,4 +46,14 @@ func send_message(conn net.Conn, message string) {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func receive_message(conn net.Conn) {
+	// Receive the response
+	buffer := make([]byte, 1024)
+	n, err := conn.Read(buffer)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("Response: ", string(buffer[:n]))
 }

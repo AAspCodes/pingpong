@@ -7,7 +7,6 @@ CLIENT_DEP_PATH = 'client/deployment.yaml'
 def load_dep(path: str)->dict:
     with open(path, 'r') as f:
         dep = yaml.safe_load(f)
-    print(type(dep))
     return dep
 
 
@@ -38,16 +37,16 @@ def create_client_pods(dep, n:int):
 
         v1.create_namespaced_pod(namespace='default', body=pod)
 
-        # # Create the Service
-        # service = client.V1Service(
-        #     metadata=client.V1ObjectMeta(name=f'{pod_name}-service-{i}'),
-        #     spec=client.V1ServiceSpec(
-        #         selector={'app': pod_name},
-        #         ports=[client.V1ServicePort(port=80, target_port=8080)],
-        #     )
-        # )
+        # Create the Service
+        service = client.V1Service(
+            metadata=client.V1ObjectMeta(name=f'{pod_name}-service-{i}'),
+            spec=client.V1ServiceSpec(
+                selector={'app': pod_name},
+                ports=[client.V1ServicePort(port=80, target_port=8080)],
+            )
+        )
 
-        # v1.create_namespaced_service(namespace='default', body=service)
+        v1.create_namespaced_service(namespace='default', body=service)
 
 if __name__ == "__main__":
     dep = load_dep(CLIENT_DEP_PATH)
