@@ -3,20 +3,35 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/aaspcodes/pingpong/shared"
 	"log"
 	"net"
 	"os"
 	"time"
 )
 
+type client_struct struct {
+	name            string
+	sequence_number int
+}
+
 func main() {
 	fmt.Println("Starting the client...")
 	// Dial a TCP connection to localhost on port 8080
+
+	client := client_struct{
+		name:            os.Getenv("POD_NAME"),
+		sequence_number: 0,
+	}
+
 	conn := create_conn()
+	fmt.Println(client.name)
 
-	pod_name := os.Getenv("POD_NAME")
-
-	message := "hello from " + pod_name
+	message := shared.Message_struct{
+		Sender:         client.name,
+		SequenceNumber: client.sequence_number,
+		Data:           "Hello from " + client.name,
+	}
 
 	send_message(conn, message)
 
@@ -35,9 +50,9 @@ func create_conn() net.Conn {
 	return conn
 }
 
-func send_message(conn net.Conn, message string) {
+func send_message(conn net.Conn, message shared.Message_struct) {
 	// Message to send
-	jsonData, err := json.Marshal(message)
+	jsonData, err := json.Marshal(message.ToString())
 	if err != nil {
 		fmt.Println(err, "client failed to send message")
 	}

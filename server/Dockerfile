@@ -1,8 +1,10 @@
 FROM golang:1.20
 
-WORKDIR /app
+WORKDIR /app/server
 
-COPY . .
+COPY ./server .
+
+COPY ./shared ../shared
 
 RUN go mod download
 

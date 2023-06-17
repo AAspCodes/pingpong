@@ -1,10 +1,12 @@
 FROM golang:1.20
 
-WORKDIR /app
+WORKDIR /app/client
 
-COPY . .
+COPY ./client .
 
-RUN go mod download
+COPY ./shared ../shared
+
+RUN go mod download 
 
 RUN go build -o client .
 
