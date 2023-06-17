@@ -52,7 +52,7 @@ func create_conn() net.Conn {
 
 func send_message(conn net.Conn, message shared.Message_struct) {
 	// Message to send
-	jsonData, err := json.Marshal(message.ToString())
+	jsonData, err := json.Marshal(message)
 	if err != nil {
 		fmt.Println(err, "client failed to send message")
 	}

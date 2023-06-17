@@ -62,7 +62,7 @@ func handleRequest(conn net.Conn, client_map client_map_struct) {
 	}
 
 	message := shared.Message_struct{}
-
+	err = nil
 	err = json.Unmarshal(buffer[:n], &message)
 
 	if err != nil {
@@ -77,10 +77,10 @@ func handleRequest(conn net.Conn, client_map client_map_struct) {
 	// if greater by more than 1, send error message
 	// if less than or equal to current sequence number, resend last message
 
-	fmt.Println("Message received from client!: " + message.ToString() + "tiger")
+	fmt.Println("Message received from client!: " + message.ToString())
 
 	// Send a response back to the client contacting us.
-	conn.Write([]byte("Message received from client!: " + string(buffer[:n]) + "dragon"))
+	conn.Write([]byte("Message received from client!: " + string(buffer[:n])))
 
 	// Close the connection when you're done with it.
 	conn.Close()
